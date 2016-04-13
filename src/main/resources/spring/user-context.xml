@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="userService" class="com.epam.springcource.service.UserService">
+        <property name="userDao" ref="userDao"/>
+    </bean>
+
+    <bean id="userDao" class="com.epam.springcource.dao.UserDAO">
+        <property name="users">
+            <map>
+                <entry key="${admin.id}" value-ref="adminUser" />
+                <entry key="${test.user.id}" value-ref="testUser" />
+            </map>
+        </property>
+    </bean>
+
+    <bean id="adminUser" class="com.epam.springcource.model.User">
+        <property name="id" value="${admin.id}"/>
+        <property name="name" value="${admin.name}"/>
+        <property name="email" value="${admin.id}"/>
+        <property name="birthday">
+            <bean factory-bean="dateFormat" factory-method="parse">
+                <constructor-arg value="${admin.birthday}" />
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="testUser" class="com.epam.springcource.model.User">
+        <property name="id" value="${test.user.id}"/>
+        <property name="name" value="${test.user.name}"/>
+        <property name="email" value="${test.user.id}"/>
+        <property name="birthday">
+            <bean factory-bean="dateFormat" factory-method="parse">
+                <constructor-arg value="${test.user.birthday}" />
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="dateFormat" class="java.text.SimpleDateFormat">
+        <constructor-arg value="yyyy-MM-dd" />
+    </bean>
+</beans>

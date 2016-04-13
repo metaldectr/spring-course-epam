@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="auditoriumService" class="com.epam.springcource.service.AuditoriumService">
+        <property name="auditoriumDao" ref="auditoriumDao"/>
+    </bean>
+
+    <bean id="auditoriumDao" class="com.epam.springcource.dao.AuditoriumDAO">
+        <property name="auditoriums">
+            <set value-type="java.util.HashSet">
+                <ref bean="goldHall"/>
+                <ref bean="silverHall"/>
+                <ref bean="bronzeHall"/>
+            </set>
+        </property>
+    </bean>
+
+    <bean id="goldHall" class="com.epam.springcource.model.Auditorium">
+        <property name="name" value="${auditorium.third.name}"/>
+        <property name="numberOfSeats" value="${auditorium.third.number.of.seats}"/>
+        <property name="vips" value="#{'${auditorium.third.vip.seats}'.split(',')}"/>
+    </bean>
+
+    <bean id="silverHall" class="com.epam.springcource.model.Auditorium">
+        <property name="name" value="${auditorium.second.name}"/>
+        <property name="numberOfSeats" value="${auditorium.second.number.of.seats}"/>
+        <property name="vips" value="#{'${auditorium.second.vip.seats}'.split(',')}"/>
+    </bean>
+
+    <bean id="bronzeHall" class="com.epam.springcource.model.Auditorium">
+        <property name="name" value="${auditorium.first.name}"/>
+        <property name="numberOfSeats" value="${auditorium.first.number.of.seats}"/>
+        <property name="vips" value="#{'${auditorium.first.vip.seats}'.split(',')}"/>
+    </bean>
+</beans>

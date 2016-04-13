@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="eventService" class="com.epam.springcource.service.EventService">
+        <property name="eventInfoDao" ref="eventInfoDao"/>
+        <property name="eventDao" ref="eventDao"/>
+    </bean>
+
+    <bean id="eventInfoDao" class="com.epam.springcource.dao.EventInfoDAO">
+        <property name="events">
+            <map>
+                <entry key="${terminator.event.name}" value-ref="terminatorEventInfo"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="eventDao" class="com.epam.springcource.dao.EventDAO">
+        <property name="events">
+            <list>
+                <ref bean="terminatorEvent"/>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="terminatorEventInfo" class="com.epam.springcource.model.EventInformation">
+        <property name="name" value="${terminator.event.name}"/>
+        <property name="basePrice" value="${terminator.event.base.price}"/>
+        <property name="duration" value="${terminator.event.duration}"/>
+    </bean>
+
+    <bean id="terminatorEvent" class="com.epam.springcource.model.Event">
+        <property name="baseInfo" ref="terminatorEventInfo"/>
+        <property name="auditorium" ref="goldHall"/>
+        <property name="time">
+            <bean factory-bean="timeFormat" factory-method="parse">
+                <constructor-arg value="${terminator.event.first.showtime}" />
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="timeFormat" class="java.text.SimpleDateFormat">
+        <constructor-arg value="yyyy-MM-dd hh:mm" />
+    </bean>
+</beans>

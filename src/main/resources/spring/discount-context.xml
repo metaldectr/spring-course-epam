@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="discountService" class="com.epam.springcource.service.DiscountService">
+        <property name="discounts">
+            <list>
+                <ref bean="birthdayDiscountStrategy"/>
+                <ref bean="tenTicketDiscountStrategy"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="birthdayDiscountStrategy" class="com.epam.springcource.model.discount.BirthdayDiscountStrategyImpl">
+        <property name="discountValue" value="${birthday.discount.strategy.value}"/>
+    </bean>
+
+    <bean id="tenTicketDiscountStrategy" class="com.epam.springcource.model.discount.TenTicketDiscountStrategyImpl">
+        <property name="discountValue" value="${ten.ticket.discount.strategy.value}"/>
+    </bean>
+</beans>
